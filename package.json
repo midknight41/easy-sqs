@@ -1,0 +1,44 @@
+{
+  "name": "easy-sqs",
+  "description": "Wrapper for SQS",
+  "version": "0.1.0",
+  "author": "Chad Macey <chad_macey@hotmail.com>",
+  "homepage": "",
+  "contributors": [
+    "Chad Macey <chad_macey@hotmail.com>"
+  ],
+  "devDependencies": {
+    "gently": "latest",
+    "nodeunit": "latest"
+  },
+  "dependencies": {
+    "aws-sdk": "latest"
+  },
+  "main": "lib/easy.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/midknight41/easy-sqs"
+  },
+  "bugs": {
+    "url": "http://github.com/midknight41/easy-sqs/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/midknight41/easy-sqs/LICENSE.txt"
+    }
+  ],
+  "keywords": [
+    "amazon",
+    "aws",
+    "swf",
+    "workflow"
+  ],
+  "scripts": {
+	"test": "nodeunit lib/Tests"
+  },
+  "license": "MIT"
+}
