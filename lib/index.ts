@@ -4,10 +4,10 @@ import AWS = require("aws-sdk");
 import easySqs = require("./EasySqs");
 
 export function CreateClient(accessKey: string, secretKey: string, region: string) {
-  return new SimplerClient(accessKey, secretKey, region);
+  return new SqsClient(accessKey, secretKey, region);
 }
 
-export class SimplerClient {
+export class SqsClient {
   private accessKey: string;
   private secretKey: string;
   private region: string;
@@ -29,6 +29,12 @@ export class SimplerClient {
 
     return new easySqs.Queue(queueName, sqs);
   }
+  
+  /*
+  TODO
+  createQueue
+  deleteQueue
+*/
 
   private configureService(service: any) {
     var creds = new AWS.Credentials(this.accessKey, this.secretKey);

@@ -13,7 +13,7 @@ export interface IQueue {
 
 export class Queue implements IQueue {
 
-  private queueName: string;
+  public queueName: string;
   private sqs: AWS.SQS;
 
   constructor(queueName: string, sqs: AWS.SQS) {
