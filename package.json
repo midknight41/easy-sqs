@@ -34,8 +34,7 @@
   "keywords": [
     "amazon",
     "aws",
-    "swf",
-    "workflow"
+    "sqs"
   ],
   "scripts": {
 	"test": "nodeunit lib/Tests"

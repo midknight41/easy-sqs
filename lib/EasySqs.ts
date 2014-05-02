@@ -9,6 +9,7 @@ export interface IQueue {
   deleteMessage(msg: AWS.Sqs.Message, callback: (err: Error) => void);
   sendMessage(data: string, callback: (err: Error) => void);
   createQueueReader(): reader.IQueueReader;
+  drain(callback?: (err: Error) => void);
 }
 
 export class Queue implements IQueue {
@@ -29,6 +30,34 @@ export class Queue implements IQueue {
 
   createQueueReader(): reader.IQueueReader {
     return new reader.QueueReader(this.sqs, this.queueName);
+  }
+
+  drain(callback?: (err: Error) => void) {
+
+    var queue = this;
+
+    var queueReader = queue.createQueueReader();
+
+    queueReader
+      .onReceipt(function readMessages(err, data, context) {
+
+        if (data != null) {
+
+          data.forEach(function (value, i, list) {
+            context.deleteMessage(value);
+          });
+        }
+      })
+      .onEmpty(function (err) {
+        //all done, stop monitoring the queue
+        queueReader.stop();
+
+        if (callback != null) {
+          callback(err);
+        }
+
+      }, true)
+      .start();
   }
 
   getMessage(callback: (err: Error, data: AWS.Sqs.Message) => void) {

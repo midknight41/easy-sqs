@@ -7,7 +7,11 @@ export function CreateClient(accessKey: string, secretKey: string, region: strin
   return new SqsClient(accessKey, secretKey, region);
 }
 
-export class SqsClient {
+export interface ISqsClient {
+  getQueue(queueName: string): easySqs.IQueue;
+}
+
+export class SqsClient implements ISqsClient {
   private accessKey: string;
   private secretKey: string;
   private region: string;

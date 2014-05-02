@@ -4,11 +4,11 @@ import AWS = require("aws-sdk");
 import errors = require("./CustomErrors");
 
 export interface IQueueReader {
-  onReceipt(callback: (err, messages: AWS.Sqs.Message[], context: MessageDeleter) => void);
+  onReceipt(callback: (err, messages: AWS.Sqs.Message[], context: IMessageDeleter) => void);
   onEmpty(callback: (err) => void);
   start();
   stop();
-  receiptCallback: (err: Error, messages: AWS.Sqs.Message[], context: MessageDeleter) => void;
+  receiptCallback: (err: Error, messages: AWS.Sqs.Message[], context: IMessageDeleter) => void;
   emptyCallback: (err: Error) => void;
   errorHandler: (err: Error) => void;
 
@@ -20,7 +20,7 @@ export interface IMessageDeleter {
 }
 
 export class QueueReader implements IQueueReader {
-  public receiptCallback: (err: Error, messages: AWS.Sqs.Message[], context: MessageDeleter) => void;
+  public receiptCallback: (err: Error, messages: AWS.Sqs.Message[], context: IMessageDeleter) => void;
   public emptyCallback: (err: Error) => void;
   public errorHandler: (err: Error) => void;
   private sqs: AWS.SQS;
@@ -41,7 +41,7 @@ export class QueueReader implements IQueueReader {
     this.batchSize = batchSize;
   }
 
-  public onReceipt(callback: (err: Error, messages: AWS.Sqs.Message[], context: MessageDeleter) => void): IQueueReader {
+  public onReceipt(callback: (err: Error, messages: AWS.Sqs.Message[], context: IMessageDeleter) => void): IQueueReader {
     this.receiptCallback = callback;
     return this;
   }
