@@ -24,8 +24,17 @@ declare module "easy-sqs" {
 
   }
 
+  export interface ICreateQueueOptions {
+    DelaySeconds?: number;
+    MaximumMessageSize?: number;
+    MessageRetentionPeriod?: number;
+    ReceiveMessageWaitTimeSeconds?: number;
+    VisibilityTimeout?: number;
+  }
+
   export interface ISqsClient {
     getQueue(queueName: string): IQueue;
+    createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: IQueue) => void);
   }
 
   export interface IMessageDeleter {

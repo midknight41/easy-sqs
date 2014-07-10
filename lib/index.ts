@@ -11,6 +11,14 @@ export interface ISqsClient {
   getQueue(queueName: string): easySqs.IQueue;
 }
 
+export interface ICreateQueueOptions {
+  DelaySeconds?: number; //0
+  MaximumMessageSize?: number; //262144
+  MessageRetentionPeriod?: number; //345600
+  ReceiveMessageWaitTimeSeconds?: number; //0
+  VisibilityTimeout?: number; //30
+}
+
 export class SqsClient implements ISqsClient {
   private accessKey: string;
   private secretKey: string;
@@ -27,24 +35,75 @@ export class SqsClient implements ISqsClient {
     this.region = region;
   }
 
-  getQueue(queueName: string): easySqs.IQueue {
-
-    var sqs = this.configureService(new AWS.SQS());
+  public getQueue(queueName: string): easySqs.IQueue {
+    var endpoint = "sqs.{0}.amazonaws.com";
+    var sqs: AWS.SQS = this.configureService(new AWS.SQS(), endpoint);
 
     return new easySqs.Queue(queueName, sqs);
   }
+
+  public createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: easySqs.IQueue) => void) {
+
+    if (queueName == null || queueName.length == 0) throw new Error("queueName must be provided");
+
+    /*
+    
+    if (options == null) options = {};
+    if (options.DelaySeconds == null) options.DelaySeconds = 0;
+    if (options.MaximumMessageSize == null) options.MaximumMessageSize = 0;
+    if (options.MessageRetentionPeriod == null) options.MessageRetentionPeriod = 0;
+    if (options.ReceiveMessageWaitTimeSeconds == null) options.ReceiveMessageWaitTimeSeconds = 0;
+    if (options.VisibilityTimeout == null) options.VisibilityTimeout = 0;
+
+    DelaySeconds?: number; //0
+    MaximumMessageSize?: number; //262144
+    MessageRetentionPeriod?: number; //345600
+    ReceiveMessageWaitTimeSeconds?: number; //0
+    VisibilityTimeout?: number; //30
+
+  */
+    var endpoint = "sqs.{0}.amazonaws.com";
+    var sqs: AWS.SQS = this.configureService(new AWS.SQS(), endpoint);
+
+    var request: AWS.Sqs.CreateQueueRequest = {
+      QueueName: queueName,
+      Attributes: options
+    }
+
+    console.log("calling");
+    sqs.client.createQueue(request, function (err: Error, result: AWS.Sqs.CreateQueueResult) {
+
+      console.log("responding");
+
+      if (err != null) {
+        callback(err, null);
+        return;
+      }
+
+      console.log(result.QueueUrl);
+
+      var queue = new easySqs.Queue(result.QueueUrl, sqs);
+      callback(null, queue);
+
+    });
+  }
+
   
   /*
   TODO
-  createQueue
   deleteQueue
 */
 
-  private configureService(service: any) {
+  private configureService(service: any, endpoint?: string) {
     var creds = new AWS.Credentials(this.accessKey, this.secretKey);
 
     service.client.config.credentials = creds;
     service.client.config.region = this.region;
+
+    if (endpoint != null) {
+      endpoint = endpoint.replace("{0}", this.region);
+      service.client.endpoint = new AWS.Endpoint(endpoint);
+    }
 
     return service;
 
