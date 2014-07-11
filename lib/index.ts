@@ -97,12 +97,12 @@ export class SqsClient implements ISqsClient {
   private configureService(service: any, endpoint?: string) {
     var creds = new AWS.Credentials(this.accessKey, this.secretKey);
 
-    service.client.config.credentials = creds;
-    service.client.config.region = this.region;
+    service.config.credentials = creds;
+    service.config.region = this.region;
 
     if (endpoint != null) {
       endpoint = endpoint.replace("{0}", this.region);
-      service.client.endpoint = new AWS.Endpoint(endpoint);
+      service.endpoint = new AWS.Endpoint(endpoint);
     }
 
     return service;
