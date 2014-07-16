@@ -118,6 +118,7 @@ export class QueueReader implements IQueueReader {
 
       } else {
         me.emptyCallback(err);
+        deleter.flush();
         me.internalMonitorQueue(deleter);
 
       }
