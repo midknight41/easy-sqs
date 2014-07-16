@@ -49,10 +49,10 @@ var testGroup = {
   "Can get a single message from queue": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    var client = gently.stub("aws-sdk", "Sqs.Client");
-    aws.client = client;
+    //var client = gently.stub("aws-sdk", "Sqs.Client");
+    //aws.client = client;
 
-    gently.expect(client, "receiveMessage", function (params, callback: (err, data) => void) {
+    gently.expect(aws, "receiveMessage", function (params, callback: (err, data) => void) {
 
       var res = {
         Messages: ["one"]
@@ -75,10 +75,10 @@ var testGroup = {
   "Can put a single message onto a queue": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    var client = gently.stub("aws-sdk", "Sqs.Client");
-    aws.client = client;
+    //var client = gently.stub("aws-sdk", "Sqs.Client");
+    //aws.client = client;
 
-    gently.expect(client, "sendMessage", function (params, callback: (err) => void) {
+    gently.expect(aws, "sendMessage", function (params, callback: (err) => void) {
 
       test.equal(params.QueueUrl, "myQueue");
       test.equal(params.MessageBody, "data");
@@ -97,8 +97,8 @@ var testGroup = {
   "Prevents a bad message from being placed on the queue": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    var client = gently.stub("aws-sdk", "Sqs.Client");
-    aws.client = client;
+    //var client = gently.stub("aws-sdk", "Sqs.Client");
+    //aws.client = client;
 
     var q = new easy.Queue("myQueue", aws);
 
@@ -123,10 +123,10 @@ var testGroup = {
   "Can delete a message from the queue": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    var client = gently.stub("aws-sdk", "Sqs.Client");
-    aws.client = client;
+    //var client = gently.stub("aws-sdk", "Sqs.Client");
+    //aws.client = client;
 
-    gently.expect(client, "deleteMessage", function (params, callback: (err) => void) {
+    gently.expect(aws, "deleteMessage", function (params, callback: (err) => void) {
 
       setImmediate(function () {
 
@@ -151,8 +151,8 @@ var testGroup = {
   "validates data before submitting the delete message request": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    var client = gently.stub("aws-sdk", "Sqs.Client");
-    aws.client = client;
+    //var client = gently.stub("aws-sdk", "Sqs.Client");
+    //aws.client = client;
 
     var q = new easy.Queue("myQueue", aws);
 

@@ -62,7 +62,7 @@ export class Queue implements IQueue {
 
   getMessage(callback: (err: Error, data: AWS.Sqs.Message) => void) {
 
-    var client = this.sqs.client;
+    var client = this.sqs;
     var params: AWS.Sqs.ReceiveMessageRequest = {};
 
     params.QueueUrl = this.queueName,
@@ -81,7 +81,7 @@ export class Queue implements IQueue {
   }
 
   deleteMessage(msg: AWS.Sqs.Message, callback: (err: Error) => void) {
-    var client = this.sqs.client;
+    var client = this.sqs;
     var params: AWS.Sqs.DeleteMessageRequest = {};
 
     if (msg == null) {
@@ -102,7 +102,7 @@ export class Queue implements IQueue {
   }
 
   sendMessage(data: string, callback: (err: Error) => void) {
-    var client = this.sqs.client;
+    var client = this.sqs;
 
     if (data == null) { callback(new errors.NullArgumentError("Data cannot be null")); return; }
     if (data.length > 262144) { callback(new errors.InvalidArgumentError("data too large for SQS")); return; }

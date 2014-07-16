@@ -86,7 +86,7 @@ export class QueueReader implements IQueueReader {
 
   private internalMonitorQueue(deleter: MessageDeleter) {
 
-    var client = this.sqs.client;
+    var client = this.sqs;
     var me = this;
 
     var params = {

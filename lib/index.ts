@@ -64,7 +64,7 @@ export class SqsClient implements ISqsClient {
   */
     var endpoint = "sqs.{0}.amazonaws.com";
     var sqs: AWS.SQS = this.configureService(new AWS.SQS(), endpoint);
-    var client = sqs.client;
+    var client = sqs;
 
     var request: AWS.Sqs.CreateQueueRequest = {
       QueueName: queueName,
