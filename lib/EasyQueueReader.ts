@@ -60,7 +60,7 @@ export class QueueReader implements IQueueReader {
     this.checkEventsAreSetupCorrectly();
 
     var me = this;
-    var deleter = new MessageDeleter(me.sqs.client, me.queueName, me.batchSize, me.errorHandler);
+    var deleter = new MessageDeleter(me.sqs, me.queueName, me.batchSize, me.errorHandler);
 
     me.listening = true;
 
@@ -135,18 +135,18 @@ export class MessageDeleter implements IMessageDeleter {
   private recieptLog = [];
   private threshold: number;
   private queueName: string;
-  private client: AWS.Sqs.Client;
+  private sqs: AWS.SQS;
   private errorHandler: (err: Error) => void;
 
-  constructor(client: AWS.Sqs.Client, queueName: string, batchSize: number, errorHandler: (err: Error) => void) {
+  constructor(sqs: AWS.SQS, queueName: string, batchSize: number, errorHandler: (err: Error) => void) {
 
     if (queueName == null || queueName.length == 0) throw new Error("queueName was not provided");
-    if (client == null) throw new Error("sqs was not provided");
+    if (sqs == null) throw new Error("sqs was not provided");
 
     //swallow errors if null
     this.errorHandler = errorHandler != null ? errorHandler : function (err: Error) { };
 
-    this.client = client;
+    this.sqs = sqs;
     this.threshold = batchSize > 0 ? batchSize : 1;
     this.queueName = queueName;
 
@@ -180,7 +180,7 @@ export class MessageDeleter implements IMessageDeleter {
 
     if (this.recieptLog.length > 0) {
       //console.log("flushing!");
-      this.cleanUp(this.client, this);
+      this.cleanUp(this.sqs, this);
     }
   }
 

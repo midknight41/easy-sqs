@@ -64,6 +64,7 @@ export class SqsClient implements ISqsClient {
   */
     var endpoint = "sqs.{0}.amazonaws.com";
     var sqs: AWS.SQS = this.configureService(new AWS.SQS(), endpoint);
+    var client = sqs.client;
 
     var request: AWS.Sqs.CreateQueueRequest = {
       QueueName: queueName,
@@ -71,7 +72,7 @@ export class SqsClient implements ISqsClient {
     }
 
     console.log("calling");
-    sqs.client.createQueue(request, function (err: Error, result: AWS.Sqs.CreateQueueResult) {
+    client.createQueue(request, function (err: Error, result: AWS.Sqs.CreateQueueResult) {
 
       console.log("responding");
 
@@ -94,7 +95,7 @@ export class SqsClient implements ISqsClient {
   deleteQueue
 */
 
-  private configureService(service: any, endpoint?: string) {
+  private configureService(service: AWS.SQS, endpoint?: string): AWS.SQS {
     var creds = new AWS.Credentials(this.accessKey, this.secretKey);
 
     service.config.credentials = creds;
