@@ -15,7 +15,7 @@ npm install easy-sqs
 ```
 var easy = require("easy-sqs");
 
-var client = new easy.WorkflowClient("yourAccessKey", "yourSecretKey", "eu-west1");
+var client = easy.CreateClient("yourAccessKey", "yourSecretKey", "eu-west-1");
 
 var q = client.getQueue("yourQueueName");
 
