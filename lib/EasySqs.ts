@@ -5,6 +5,7 @@ import reader = require("./EasyQueueReader");
 import errors = require("./CustomErrors");
 
 export interface IQueue {
+  queueName: string;
   getMessage(callback: (err: Error, data: AWS.Sqs.Message) => void);
   deleteMessage(msg: AWS.Sqs.Message, callback: (err: Error) => void);
   sendMessage(data: string, callback: (err: Error) => void);

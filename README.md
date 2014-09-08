@@ -1,4 +1,4 @@
-﻿##Easy SQS
+﻿#Easy SQS
 
 Simple wrapper for SQS
 
@@ -17,7 +17,11 @@ var easy = require("easy-sqs");
 
 var client = easy.CreateClient("yourAccessKey", "yourSecretKey", "eu-west-1");
 
-var q = client.getQueue("yourQueueName");
+client.getQueue("https://sqs.eu-west-1.amazonaws.com/123/queueName", function(err, q){
+
+	//returns an error if the queue doesn't exist
+
+});
 
 
 ```
