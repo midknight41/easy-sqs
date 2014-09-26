@@ -6,6 +6,7 @@ declare module "easy-sqs" {
   export function CreateClient(accessKey: string, secretKey: string, region: string): ISqsClient;
 
   export interface IQueue {
+    queueName: string;
     getMessage(callback: (err: Error, data: AWS.Sqs.Message) => void);
     deleteMessage(msg: AWS.Sqs.Message, callback: (err: Error) => void);
     sendMessage(data: string, callback: (err: Error) => void);
@@ -33,7 +34,7 @@ declare module "easy-sqs" {
   }
 
   export interface ISqsClient {
-    getQueue(queueName: string): IQueue;
+    getQueue(queueUrl: string, callback: (err: Error, queue: IQueue) => void);
     createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: IQueue) => void);
   }
 

@@ -28,7 +28,7 @@ function configureService(accessKey, secretKey, region): AWS.SQS {
 }
 
 export interface ISqsClient {
-  getQueue(queueUrl: string, callback: (err: Error, queue: easySqs.Queue) => void);
+  getQueue(queueUrl: string, callback: (err: Error, queue: easySqs.IQueue) => void);
   createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: easySqs.IQueue) => void);
 }
 
