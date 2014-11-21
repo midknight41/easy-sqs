@@ -27,6 +27,7 @@
 *.config
 ipch/
 obj/
+Scripts/
 [Bb]in
 [Dd]ebug*/
 [Rr]elease*/
@@ -35,6 +36,10 @@ Ankh.NoLoad
 *.js.map
 *.csproj
 *.csproj.user
+*.njsproj
+*.njsproj.user
+*.dat
+*.sln
 
 #MonoDevelop
 *.pidb

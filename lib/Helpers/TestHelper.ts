@@ -1,5 +1,3 @@
-///<reference path="../imports.d.ts"/>
-
 import errors = require("../CustomErrors");
 
 export function nullErrorTest(test: nodeunit.Test, fnc: () => void) {

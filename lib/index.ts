@@ -1,5 +1,3 @@
-/// <reference path="./imports.d.ts" />
-
 import AWS = require("aws-sdk");
 import easySqs = require("./EasySqs");
 

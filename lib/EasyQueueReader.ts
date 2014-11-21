@@ -1,5 +1,3 @@
-/// <reference path="./imports.d.ts" />
-
 import AWS = require("aws-sdk");
 import errors = require("./CustomErrors");
 
@@ -167,8 +165,6 @@ export class MessageDeleter implements IMessageDeleter {
       me.recieptLog.push(value);
     });
 
-    //console.log("log", this.recieptLog.length);
-
     me.flushIfThresholdExceeded();
   }
 
@@ -180,7 +176,6 @@ export class MessageDeleter implements IMessageDeleter {
   public flush() {
 
     if (this.recieptLog.length > 0) {
-      //console.log("flushing!");
       this.cleanUp(this.sqs, this);
     }
   }
@@ -212,8 +207,6 @@ export class MessageDeleter implements IMessageDeleter {
   }
 
   private deleteMessageBatch(client: AWS.Sqs.Client, queueName: string, handles: string[]) {
-
-    //console.log("preparing batch", handles.length);
 
     var entries: AWS.Sqs.DeleteMessageBatchRequestEntry[] = [];
     var me = this;

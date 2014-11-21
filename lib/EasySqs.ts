@@ -1,5 +1,3 @@
-/// <reference path="./imports.d.ts" />
-
 import AWS = require("aws-sdk");
 import reader = require("./EasyQueueReader");
 import errors = require("./CustomErrors");
