@@ -1,7 +1,7 @@
 {
   "name": "easy-sqs",
   "description": "Wrapper for SQS",
-  "version": "0.2.5",
+  "version": "0.2.0",
   "author": "Chad Macey <chad_macey@hotmail.com>",
   "homepage": "",
   "contributors": [
@@ -12,7 +12,7 @@
     "nodeunit": "latest"
   },
   "dependencies": {
-    "aws-sdk": "2.0.x"
+    "aws-sdk": "^2.1.18"
   },
   "main": "lib/index.js",
   "engines": {
@@ -37,7 +37,7 @@
     "sqs"
   ],
   "scripts": {
-	"test": "nodeunit lib/Tests"
+    "test": "nodeunit lib/Tests"
   },
   "license": "MIT"
 }

@@ -2,7 +2,7 @@ import errors = require("../CustomErrors");
 
 export function nullErrorTest(test: nodeunit.Test, fnc: () => void) {
 
-  var errorType = new errors.NullArgumentError();
+  var errorType = new errors.NullOrEmptyArgumentError();
   errorTest(test, errorType, fnc);
 }
 

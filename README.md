@@ -1,36 +1,42 @@
-﻿#Easy SQS
+
+# Easy SQS
 
 Simple wrapper for SQS
 
-##How to install
+## How to install
 
 ```
-
 npm install easy-sqs
 
 ```
 
-##How to use
+## How to use
 
-```
+```js
 var easy = require("easy-sqs");
 
-var client = easy.CreateClient("yourAccessKey", "yourSecretKey", "eu-west-1");
 
-client.getQueue("https://sqs.eu-west-1.amazonaws.com/123/queueName", function(err, q){
+var awsConfig = {
+	"accessKeyId": "[YourAccessKeyId]",
+	"secretAccessKey": "[YourSecretAccessKey]",
+	"region": "[YourRegion]"
+};
+
+
+var client = easy.createClient(awsConfig);
+
+client.getQueue("https://sqs.eu-west-1.amazonaws.com/123/queueName", function(err, queue){
 
 	//returns an error if the queue doesn't exist
 
 });
-
-
 ```
+The ```awsConfig``` parameter is optional. If the argument is not provided it will default to the AWS settings in your environment. Even if you want to have your application pass in some AWS settings (like proxy settings) you can omit the Credentials as long as they are available in your environment.
 
-##Getting a single message
+## Getting a single message
 
-```
-
-q.getMessage(function(err, msg){
+```js
+queue.getMessage(function(err, msg){
 
 	console.log(msg.Body);
 
@@ -38,67 +44,59 @@ q.getMessage(function(err, msg){
 
 
 ```
+## Deleting a single message
 
-##Deleting a single message
+```js
 
-```
-
-q.getMessage(function(err, msg){
+queue.getMessage(function(err, msg){
 
 	//all good, delete the message
 
-	q.deleteMessage(msg, function(err){
+	queue.deleteMessage(msg, function(err){
 
 	});
 
 });
-
-
 ```
 
-##Sending a single message
+## Sending a single message
 
-```
-
-q.sendMessage('{"some": "data"}', function(err){
+```js
+//as text
+queue.sendMessage("my message body", function(err){
 
 
 });
 
+//or JSON
+queue.sendMessage({"some": "data"}, function(err){
+
+
+});
 
 ```
 
-##Using a queue reader
+## Using a QueueReader
 
 It is common to have an application just sit and monitor a queue, process the message when it arrives, and then to continue to wait. For this activity, use a QueueReader.
 
 
-```
+```js
+var queueReader = queue.createQueueReader();
 
-var queueReader = q.createQueueReader();
+queueReader.on("message", function (message, context) {
 
-queueReader.onReceipt(function (err, messages, context) {
-
-
-	messages.forEach(function(msg){
-
-		//process msg.Body
-
-		context.deleteMessage(msg);
-
-	});
+		//process msg.Body here...
+		context.deleteMessage(message);
 
 });
 
-queueReader.onEmpty(function (err) {
+queueReader.on("error", function (err) {
 
     queueReader.stop();
 
 });
 
 queueReader.start();
-
-
-
-
 ```
+Please note, the previous interface with ```onReceipt```, ```onEmpty```, and ```onError``` will be deprecated in future versions. Please modify to use standard events.

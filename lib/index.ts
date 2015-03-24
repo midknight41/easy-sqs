@@ -1,13 +1,41 @@
 import AWS = require("aws-sdk");
 import easySqs = require("./EasySqs");
+import errors = require("./CustomErrors");
 
 export function CreateClient(accessKey: string, secretKey: string, region: string): ISqsClient {
-
+  console.warn("CreateClient is now deprecated. Please use createClient instead");
   var service = configureService(accessKey, secretKey, region);
 
   return new SqsClient(service);
 }
 
+export function createClient(options: any, awsConfig?: any) {
+
+  validateOptions(options);
+  validateConfig(awsConfig);
+
+  if (awsConfig != null) {
+    AWS.config.update(awsConfig);
+  }
+
+  return new SqsClient(new AWS.SQS());
+}
+
+function validateOptions(options: any) {
+  //TODO
+}
+
+function validateConfig(awsConfig: any) {
+
+  if (awsConfig && awsConfig.accessKeyId && awsConfig.secretAccessKey && awsConfig.region) return;
+
+  if (!process.env.AWS_ACCESS_KEY_ID) throw new errors.InvalidArgumentError("accessKeyId not found in config or process.env.AWS_ACCESS_KEY_ID");
+  if (!process.env.AWS_SECRET_ACCESS_KEY) throw new errors.InvalidArgumentError("secretAccessKey not found in config or process.env.AWS_SECRET_ACCESS_KEY");
+  if (!process.env.AWS_REGION) throw new errors.InvalidArgumentError("region not found in config or process.env.AWS_REGION");
+
+}
+
+//deprecated
 function configureService(accessKey, secretKey, region): AWS.SQS {
 
   var creds = new AWS.Credentials(accessKey, secretKey);
@@ -26,6 +54,7 @@ function configureService(accessKey, secretKey, region): AWS.SQS {
 }
 
 export interface ISqsClient {
+  getQueueSync(queueUrl: string): easySqs.IQueue;
   getQueue(queueUrl: string, callback: (err: Error, queue: easySqs.IQueue) => void);
   createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: easySqs.IQueue) => void);
 }
@@ -49,6 +78,18 @@ export class SqsClient implements ISqsClient {
     this.sqs = service;
   }
 
+  public getQueueSync(queueUrl: string): easySqs.Queue {
+
+    //Should I throw here?
+    if (queueUrl == null || queueUrl.length == 0) {
+      return null;
+    }
+
+    var client = this.sqs;
+    var queue = new easySqs.Queue(queueUrl, client);
+
+  }
+  
   public getQueue(queueUrl: string, callback: (err: Error, queue: easySqs.Queue) => void) {
 
     if (callback == null) throw new Error("callback must be provided");

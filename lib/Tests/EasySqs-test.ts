@@ -113,7 +113,7 @@ var testGroup = {
     });
 
     q.sendMessage(null, function (err) {
-      test.equal(err.name, new errors.NullArgumentError().name, "unexpected error received");
+      test.equal(err.name, new errors.NullOrEmptyArgumentError().name, "unexpected error received");
     });
 
     test.done();
@@ -121,9 +121,7 @@ var testGroup = {
   "Can delete a message from the queue": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    //var client = gently.stub("aws-sdk", "Sqs.Client");
-    //aws.client = client;
-
+  
     gently.expect(aws, "deleteMessage", function (params, callback: (err) => void) {
 
       setImmediate(function () {
@@ -149,9 +147,7 @@ var testGroup = {
   "validates data before submitting the delete message request": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-    //var client = gently.stub("aws-sdk", "Sqs.Client");
-    //aws.client = client;
-
+  
     var q = new easy.Queue("myQueue", aws);
 
     var msg: sdk.Sqs.Message = { MessageId: "", ReceiptHandle: "", MD5OfBody: "md5", Body: "body", Attributes: [] };
@@ -161,7 +157,7 @@ var testGroup = {
     });
 
     q.deleteMessage(null, function (err) {
-      test.equal(err.name, new errors.NullArgumentError().name, "unexpected error received");
+      test.equal(err.name, new errors.NullOrEmptyArgumentError().name, "unexpected error received");
     });
 
     test.done();

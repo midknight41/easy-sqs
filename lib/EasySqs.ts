@@ -1,6 +1,7 @@
 import AWS = require("aws-sdk");
 import reader = require("./EasyQueueReader");
 import errors = require("./CustomErrors");
+import stream = require("./MessageStream");
 
 export interface IQueue {
   queueName: string;
@@ -18,20 +19,38 @@ export class Queue implements IQueue {
 
   constructor(queueName: string, sqs: AWS.SQS) {
 
-    if (queueName == null) throw new errors.NullArgumentError("queueName");
+    if (queueName == null) throw new errors.NullOrEmptyArgumentError("queueName");
     if (queueName.length == 0) throw new errors.InvalidArgumentError("queueName not provided");
-    if (sqs == null) throw new errors.NullArgumentError("sqs");
+    if (sqs == null) throw new errors.NullOrEmptyArgumentError("sqs");
 
     this.queueName = queueName;
     this.sqs = sqs;
 
   }
 
-  createQueueReader(): reader.IQueueReader {
-    return new reader.QueueReader(this.sqs, this.queueName);
+  public createBatchDeleter(batchSize?: number) {
+    return new reader.MessageDeleter(this.sqs, this.queueName, batchSize, null);
   }
 
-  drain(callback?: (err: Error) => void) {
+  public createQueueReader(batchSize?: number): reader.IQueueReader {
+    return new reader.QueueReader(this.sqs, this.queueName, batchSize);
+  }
+
+  public createMessageStream(highWaterMark?: number, batchSize?:number): stream.IMessageStream {
+    var rdr = new reader.QueueReader(this.sqs, this.queueName, batchSize);
+
+    var opts: stream.IMessageStreamOptions = null;
+
+    if (highWaterMark != null) {
+      opts = {
+        highWaterMark: highWaterMark
+      };
+    }
+    
+    return new stream.MessageStream(rdr, opts);
+  }
+
+  public drain(callback?: (err: Error) => void) {
 
     var queue = this;
 
@@ -84,7 +103,7 @@ export class Queue implements IQueue {
     var params: AWS.Sqs.DeleteMessageRequest = {};
 
     if (msg == null) {
-      callback(new errors.NullArgumentError("msg"));
+      callback(new errors.NullOrEmptyArgumentError("msg"));
       return;
     }
 
@@ -103,7 +122,7 @@ export class Queue implements IQueue {
   sendMessage(data: string, callback: (err: Error) => void) {
     var client = this.sqs;
 
-    if (data == null) { callback(new errors.NullArgumentError("Data cannot be null")); return; }
+    if (data == null) { callback(new errors.NullOrEmptyArgumentError("Data cannot be null")); return; }
     if (data.length > 262144) { callback(new errors.InvalidArgumentError("data too large for SQS")); return; }
 
     var params: AWS.Sqs.SendMessageRequest = {};

@@ -1,3 +1,4 @@
+import utils = require('util');
 
 export class BadConfigError implements Error {
   public name: string = "BadConfigError";
@@ -10,10 +11,10 @@ export class BadConfigError implements Error {
   }
 }
 
-require('util').inherits(BadConfigError, Error);
+utils.inherits(BadConfigError, Error);
 
-export class NullArgumentError implements Error {
-  public name: string = "NullArgumentError";
+export class NullOrEmptyArgumentError implements Error {
+  public name: string = "NullOrEmptyArgumentError";
   public message: string;
 
   constructor(message?: string) {
@@ -21,13 +22,12 @@ export class NullArgumentError implements Error {
 
     var er: any = Error;
     er.captureStackTrace(this, InvalidArgumentError);
-
     
   }
 
 }
 
-require('util').inherits(NullArgumentError, Error);
+utils.inherits(NullOrEmptyArgumentError, Error);
 
 export class InvalidArgumentError implements Error {
   public name: string = "InvalidArgumentError";
@@ -42,4 +42,4 @@ export class InvalidArgumentError implements Error {
 
 }
 
-require('util').inherits(InvalidArgumentError, Error);  
+utils.inherits(InvalidArgumentError, Error);  
