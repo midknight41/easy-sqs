@@ -82,7 +82,7 @@ export class SqsClient implements ISqsClient {
     }
 
     var client = this.sqs;
-    var queue = new easySqs.Queue(queueUrl, client);
+    return new easySqs.Queue(queueUrl, client);
 
   }
   
