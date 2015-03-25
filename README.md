@@ -1,7 +1,7 @@
 
-# Easy SQS
+# easy-sqs
 
-Simple wrapper for SQS
+**easy-sqs** is a simpler wrapper for the AWS SQS service.
 
 ## How to install
 
@@ -36,6 +36,7 @@ The ```awsConfig``` parameter is optional. If the argument is not provided it wi
 ## Getting a single message
 
 ```js
+
 queue.getMessage(function(err, msg){
 
 	console.log(msg.Body);
@@ -62,14 +63,8 @@ queue.getMessage(function(err, msg){
 ## Sending a single message
 
 ```js
-//as text
+//messages must be strings for now...
 queue.sendMessage("my message body", function(err){
-
-
-});
-
-//or JSON
-queue.sendMessage({"some": "data"}, function(err){
 
 
 });

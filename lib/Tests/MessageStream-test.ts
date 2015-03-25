@@ -1,10 +1,11 @@
-﻿import streams = require("../MessageStream");
-import readers = require("../EasyQueueReader");
+﻿import events = require("events");
+import nodeStream = require("stream");
 import sdk = require("aws-sdk");
+
+import streams = require("../MessageStream");
 import help = require("../Helpers/TestHelper");
 import errors = require("../CustomErrors");
-import events = require("events");
-import nodeStream = require("stream");
+import interfaces = require("../Interfaces");
 
 var gently = new (require("gently"));
 
@@ -235,14 +236,14 @@ var testGroup = {
 
 };
 
-class MockReader extends events.EventEmitter implements readers.IQueueReader {
+class MockReader extends events.EventEmitter implements interfaces.IQueueReader {
 
-  public onReceipt(callback: (err, messages: sdk.Sqs.Message[], context: readers.IMessageDeleter) => void) { }
+  public onReceipt(callback: (err, messages: sdk.Sqs.Message[], context: interfaces.IMessageDeleter) => void) { }
   public onEmpty(callback: (err) => void) { }
   public start() { }
   public stop() { }
   public pause() { }
-  public receiptCallback: (err: Error, messages: sdk.Sqs.Message[], context: readers.IMessageDeleter) => void;
+  public receiptCallback: (err: Error, messages: sdk.Sqs.Message[], context: interfaces.IMessageDeleter) => void;
   public emptyCallback: (err: Error) => void;
   public errorHandler: (err: Error) => void;
   public deleteMessage(message: sdk.Sqs.Message) { }

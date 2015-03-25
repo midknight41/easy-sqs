@@ -1,4 +1,4 @@
-﻿import readers = require("../EasyQueueReader");
+﻿import readers = require("../QueueReader");
 import sdk = require("aws-sdk");
 import help = require("../Helpers/TestHelper");
 import errors = require("../CustomErrors");

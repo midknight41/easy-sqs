@@ -1,18 +1,10 @@
 import AWS = require("aws-sdk");
-import reader = require("./EasyQueueReader");
+import reader = require("./QueueReader");
 import errors = require("./CustomErrors");
 import stream = require("./MessageStream");
+import interfaces = require("./Interfaces");
 
-export interface IQueue {
-  queueName: string;
-  getMessage(callback: (err: Error, data: AWS.Sqs.Message) => void);
-  deleteMessage(msg: AWS.Sqs.Message, callback: (err: Error) => void);
-  sendMessage(data: string, callback: (err: Error) => void);
-  createQueueReader(): reader.IQueueReader;
-  drain(callback?: (err: Error) => void);
-}
-
-export class Queue implements IQueue {
+export class Queue implements interfaces.IQueue {
 
   public queueName: string;
   private sqs: AWS.SQS;
@@ -28,18 +20,18 @@ export class Queue implements IQueue {
 
   }
 
-  public createBatchDeleter(batchSize?: number) {
-    return new reader.MessageDeleter(this.sqs, this.queueName, batchSize, null);
-  }
+  //public createBatchDeleter(batchSize?: number) {
+  //  return new md.MessageDeleter(this.sqs, this.queueName, batchSize, null);
+  //}
 
-  public createQueueReader(batchSize?: number): reader.IQueueReader {
+  public createQueueReader(batchSize?: number): interfaces.IQueueReader {
     return new reader.QueueReader(this.sqs, this.queueName, batchSize);
   }
 
-  public createMessageStream(highWaterMark?: number, batchSize?:number): stream.IMessageStream {
+  public createMessageStream(highWaterMark?: number, batchSize?: number): interfaces.IMessageStream {
     var rdr = new reader.QueueReader(this.sqs, this.queueName, batchSize);
 
-    var opts: stream.IMessageStreamOptions = null;
+    var opts: interfaces.IMessageStreamOptions = null;
 
     if (highWaterMark != null) {
       opts = {

@@ -1,28 +1,18 @@
-import AWS = require("aws-sdk");
-import errors = require("./CustomErrors");
 import events = require("events");
 import streams = require("stream");
-import readers = require("./EasyQueueReader");
+import AWS = require("aws-sdk");
+import errors = require("./CustomErrors");
+import interfaces = require("./Interfaces");
 
 
-export interface IMessageStream {
-  _read(size?: number);
-  close();
-}
+export class MessageStream extends streams.Readable implements interfaces.IMessageStream, interfaces.IMessageDeleter {
 
-export interface IMessageStreamOptions {
-  highWaterMark?: number;
-  closeOnEmpty?: boolean;
-}
-
-export class MessageStream extends streams.Readable implements IMessageStream, readers.IMessageDeleter {
-
-  private reader: readers.IQueueReader;
+  private reader: interfaces.IQueueReader;
   public closeOnEmpty: boolean;
   public highWaterMark: number;
   private started: boolean;
 
-  constructor(reader: readers.IQueueReader, options?: IMessageStreamOptions) {
+  constructor(reader: interfaces.IQueueReader, options?: interfaces.IMessageStreamOptions) {
 
     this.started = false;
 

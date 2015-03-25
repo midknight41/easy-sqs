@@ -1,6 +1,7 @@
 import AWS = require("aws-sdk");
 import easySqs = require("./EasySqs");
 import errors = require("./CustomErrors");
+import interfaces = require("./Interfaces");
 
 export function CreateClient(accessKey: string, secretKey: string, region: string): ISqsClient {
   console.warn("CreateClient is now deprecated. Please use createClient instead");
@@ -9,9 +10,8 @@ export function CreateClient(accessKey: string, secretKey: string, region: strin
   return new SqsClient(service);
 }
 
-export function createClient(options: any, awsConfig?: any) {
+export function createClient(awsConfig?: any) {
 
-  validateOptions(options);
   validateConfig(awsConfig);
 
   if (awsConfig != null) {
@@ -19,10 +19,6 @@ export function createClient(options: any, awsConfig?: any) {
   }
 
   return new SqsClient(new AWS.SQS());
-}
-
-function validateOptions(options: any) {
-  //TODO
 }
 
 function validateConfig(awsConfig: any) {
@@ -54,9 +50,9 @@ function configureService(accessKey, secretKey, region): AWS.SQS {
 }
 
 export interface ISqsClient {
-  getQueueSync(queueUrl: string): easySqs.IQueue;
-  getQueue(queueUrl: string, callback: (err: Error, queue: easySqs.IQueue) => void);
-  createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: easySqs.IQueue) => void);
+  getQueueSync(queueUrl: string): interfaces.IQueue;
+  getQueue(queueUrl: string, callback: (err: Error, queue: interfaces.IQueue) => void);
+  createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: interfaces.IQueue) => void);
 }
 
 export interface ICreateQueueOptions {
@@ -119,7 +115,7 @@ export class SqsClient implements ISqsClient {
 
   }
 
-  public createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: easySqs.IQueue) => void) {
+  public createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: interfaces.IQueue) => void) {
 
     if (callback == null) throw new Error("callback must be provided");
 
