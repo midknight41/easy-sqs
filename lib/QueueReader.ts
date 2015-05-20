@@ -105,7 +105,7 @@ export class QueueReader extends events.EventEmitter implements interfaces.IQueu
 
     //abort after cleaning up
     if (me.listening == false) {
-      if (me.stopping = true) {
+      if (me.stopping == true) {
         me.stopping = false;
         me.emit("stopped");
       }
