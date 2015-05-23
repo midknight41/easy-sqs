@@ -3,6 +3,8 @@
 
 **easy-sqs** is a simpler wrapper for the AWS SQS service.
 
+[![npm version](https://badge.fury.io/js/easy-sqs.svg)](http://badge.fury.io/js/easy-sqs)
+
 ## How to install
 
 ```
