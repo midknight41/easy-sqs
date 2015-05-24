@@ -3,13 +3,6 @@ import easySqs = require("./EasySqs");
 import errors = require("./CustomErrors");
 import interfaces = require("./Interfaces");
 
-export function CreateClient(accessKey: string, secretKey: string, region: string): ISqsClient {
-  console.warn("CreateClient is now deprecated. Please use createClient instead");
-  var service = configureService(accessKey, secretKey, region);
-
-  return new SqsClient(service);
-}
-
 export function createClient(awsConfig?: any) {
 
   validateConfig(awsConfig);
@@ -30,6 +23,15 @@ function validateConfig(awsConfig: any) {
   if (!process.env.AWS_REGION) throw new errors.InvalidArgumentError("region not found in config or process.env.AWS_REGION");
 
 }
+
+//deprecated
+export function CreateClient(accessKey: string, secretKey: string, region: string): ISqsClient {
+  console.warn("CreateClient is now deprecated. Please use createClient instead");
+  var service = configureService(accessKey, secretKey, region);
+
+  return new SqsClient(service);
+}
+
 
 //deprecated
 function configureService(accessKey, secretKey, region): AWS.SQS {
@@ -70,7 +72,7 @@ export class SqsClient implements ISqsClient {
   private sqs: AWS.SQS;
 
   constructor(service: AWS.SQS) {
-    if (service == null) throw new Error("AWS SQS service must be provided");
+    if (service == null) throw new errors.NullOrEmptyArgumentError("AWS SQS service must be provided");
     this.sqs = service;
   }
 
@@ -88,10 +90,10 @@ export class SqsClient implements ISqsClient {
   
   public getQueue(queueUrl: string, callback: (err: Error, queue: easySqs.Queue) => void) {
 
-    if (callback == null) throw new Error("callback must be provided");
+    if (callback == null) throw new errors.NullOrEmptyArgumentError("callback must be provided");
 
     if (queueUrl == null || queueUrl.length == 0) {
-      callback(new Error("queueName must be provided"), null);
+      callback(new errors.NullOrEmptyArgumentError("queueName must be provided"), null);
       return;
     }
 
@@ -117,10 +119,10 @@ export class SqsClient implements ISqsClient {
 
   public createQueue(queueName: string, options: ICreateQueueOptions, callback: (err: Error, queue: interfaces.IQueue) => void) {
 
-    if (callback == null) throw new Error("callback must be provided");
+    if (callback == null) throw new errors.NullOrEmptyArgumentError("callback must be provided");
 
     if (queueName == null || queueName.length == 0) {
-      callback(new Error("queueName must be provided"), null);
+      callback(new errors.NullOrEmptyArgumentError("queueName must be provided"), null);
       return;
     }
 

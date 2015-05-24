@@ -38,7 +38,7 @@ export class Queue implements interfaces.IQueue {
         highWaterMark: highWaterMark
       };
     }
-    
+
     return new stream.MessageStream(rdr, opts);
   }
 
@@ -49,25 +49,24 @@ export class Queue implements interfaces.IQueue {
     var queueReader = queue.createQueueReader();
 
     queueReader
-      .onReceipt(function readMessages(err, data, context) {
+      .on("message", (msg, context) => {
 
-        if (data != null) {
+        context.deleteMessage(msg);
 
-          data.forEach(function (value, i, list) {
-            context.deleteMessage(value);
-          });
-        }
-      })
-      .onEmpty(function (err) {
-        //all done, stop monitoring the queue
-        queueReader.stop();
+      });
 
-        if (callback != null) {
-          callback(err);
-        }
+    queueReader
+      .on("empty", (err) => {
+      //all done, stop monitoring the queue
+      queueReader.stop();
 
-      }, true)
-      .start();
+      if (callback != null) {
+        callback(err);
+      }
+
+    });
+
+    queueReader.start();
   }
 
   getMessage(callback: (err: Error, data: AWS.Sqs.Message) => void) {

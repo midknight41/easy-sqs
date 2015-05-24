@@ -121,7 +121,7 @@ var testGroup = {
   "Can delete a message from the queue": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-  
+
     gently.expect(aws, "deleteMessage", function (params, callback: (err) => void) {
 
       setImmediate(function () {
@@ -147,7 +147,7 @@ var testGroup = {
   "validates data before submitting the delete message request": function (test: nodeunit.Test): void {
 
     var aws = gently.stub("aws-sdk", "SQS");
-  
+
     var q = new easy.Queue("myQueue", aws);
 
     var msg: sdk.Sqs.Message = { MessageId: "", ReceiptHandle: "", MD5OfBody: "md5", Body: "body", Attributes: [] };
@@ -159,6 +159,102 @@ var testGroup = {
     q.deleteMessage(null, function (err) {
       test.equal(err.name, new errors.NullOrEmptyArgumentError().name, "unexpected error received");
     });
+
+    test.done();
+  },
+  "can create QueueReader": function (test: nodeunit.Test): void {
+
+    var aws = gently.stub("aws-sdk", "SQS");
+
+    var q = new easy.Queue("myQueue", aws);
+    var batchSize = 10;
+
+    var reader = q.createQueueReader(batchSize);
+
+    test.notEqual(reader, null);
+
+    test.done();
+
+  },
+  "can create MessageStream": function (test: nodeunit.Test): void {
+
+    var aws = gently.stub("aws-sdk", "SQS");
+
+    var queue = new easy.Queue("myQueue", aws);
+    var batchSize = 10;
+    var highWatermark = 10;
+
+    var stream = queue.createMessageStream(highWatermark, batchSize);
+
+    test.notEqual(stream, null);
+
+    test.done();
+
+
+  },
+  "drainQueue can empty a queue": function (test: nodeunit.Test): void {
+
+    var aws = gently.stub("aws-sdk", "SQS");
+
+    var queue = new easy.Queue("myQueue", aws);
+    var batchSize = 10;
+
+    gently.expect(aws, "receiveMessage", function (params, callback: (err, data) => void) {
+
+      var res = {
+        Messages: ["one"],
+        ReceiptHandle: "handle"
+      };
+
+      test.equal(params.QueueUrl, "myQueue");
+
+      callback(null, res);
+    });
+
+    gently.expect(aws, "deleteMessageBatch", function (params, callback: (err) => void) {
+
+
+      console.log(params);
+      test.equal(params.QueueUrl, "myQueue");
+      callback(null);
+
+    });
+
+    gently.expect(aws, "receiveMessage", function (params, callback: (err, data) => void) {
+
+      var res = {
+        Messages: null,
+        ReceiptHandle: "handle"
+      };
+
+      test.equal(params.QueueUrl, "myQueue");
+
+      callback(null, res);
+    });
+
+
+    queue.drain((err) => {
+      console.log("final?", err);
+      test.equal(err, null);
+      test.done();
+    });
+
+
+
+  },
+  "b": function (test: nodeunit.Test): void {
+
+    test.done();
+  },
+  "c": function (test: nodeunit.Test): void {
+
+    test.done();
+  },
+  "d": function (test: nodeunit.Test): void {
+
+    test.done();
+  },
+  "e": function (test: nodeunit.Test): void {
 
     test.done();
   }
