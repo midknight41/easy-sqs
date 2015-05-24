@@ -6,7 +6,7 @@
 [![npm version](https://badge.fury.io/js/easy-sqs.svg)](http://badge.fury.io/js/easy-sqs)
 [![Build Status](https://travis-ci.org/midknight41/easy-sqs.svg?branch=master)](https://travis-ci.org/midknight41/easy-sqs)
 [![Dependency Status](https://david-dm.org/midknight41/easy-sqs.png)](https://david-dm.org/midknight41/easy-sqs)
-[![Coverage Status](https://coveralls.io/repos/midknight41/easy-sqs/badge.svg?branch=master)](https://coveralls.io/r/midknight41/easy-sqs?branch=master)
+[![Coverage Status](https://coveralls.io/repos/midknight41/easy-sqs/badge.svg?branch=master&cache=busted)](https://coveralls.io/r/midknight41/easy-sqs?branch=master)
 
 ## How to install
 
