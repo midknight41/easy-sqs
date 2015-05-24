@@ -50,6 +50,8 @@ _ReSharper*/
 *.resharper
 [Tt]est[Rr]esult*
 *.sass-cache
+.coveralls.yml
+/coverage/
 
 #Project files
 [Bb]uild/
