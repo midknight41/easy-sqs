@@ -1,7 +1,7 @@
 {
   "name": "easy-sqs",
   "description": "Wrapper for SQS",
-  "version": "0.2.3",
+  "version": "0.3.3",
   "author": "Chad Macey <chad_macey@hotmail.com>",
   "homepage": "",
   "contributors": [

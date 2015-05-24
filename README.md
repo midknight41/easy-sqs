@@ -14,11 +14,10 @@
 npm install easy-sqs
 ```
 
-## How to use
+## Get started: Create a client
 
 ```js
 var easy = require("easy-sqs");
-
 
 var awsConfig = {
 	"accessKeyId": "[YourAccessKeyId]",
@@ -26,16 +25,25 @@ var awsConfig = {
 	"region": "[YourRegion]"
 };
 
-
 var client = easy.createClient(awsConfig);
+```
+The ```awsConfig``` parameter is optional. If the argument is not provided it will default to the AWS settings in your environment. Even if you want to have your application pass in some AWS settings (like proxy settings) you can omit the Credentials as long as they are available in your environment.
 
+## Get a reference to the queue
+
+```js
 client.getQueue("https://sqs.eu-west-1.amazonaws.com/123/queueName", function(err, queue){
 
 	//returns an error if the queue doesn't exist
 
 });
 ```
-The ```awsConfig``` parameter is optional. If the argument is not provided it will default to the AWS settings in your environment. Even if you want to have your application pass in some AWS settings (like proxy settings) you can omit the Credentials as long as they are available in your environment.
+
+Alternatively, you can use ```getQueueSync``` to get a queue object. Please note this will not check in the queue exists.
+
+```js
+var queue = client.getQueueSync("https://sqs.eu-west-1.amazonaws.com/123/queueName");
+```
 
 ## Getting a single message
 
