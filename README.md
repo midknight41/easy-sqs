@@ -165,7 +165,7 @@ client.createQueue("myName", null, function(err, queue){
 #### createQueueReader
 Creates a *QueueReader* object to monitor an SQS Queue that will emit messages when they become available.
 
-See <a>here</a> for more detail on the *QueueReader* class.
+See [here](#queue-reader-class) for more detail on the *QueueReader* class.
 
 Parameters:
 - **queueUrl** (string)
@@ -221,7 +221,7 @@ The *Queue* class exposes the following methods:
 #### createQueueReader
 Creates a *QueueReader* object to monitor an SQS Queue that will emit messages when they become available.
 
-See <a>here</a> for more detail on the *QueueReader* class.
+See [here](#queue-reader-class) for more detail on the *QueueReader* class.
 
 Parameters:
 - **batchSize** (number): default = 0
