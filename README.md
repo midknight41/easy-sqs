@@ -13,7 +13,7 @@
 ```
 npm install easy-sqs
 ```
-##Getting Started
+## Getting Started
 
 ### Quick Examples
 
@@ -22,7 +22,7 @@ Here's some basic examples to get you started. More detailed documentation can b
 
 #### Send a single message
 
-To start sending message we need to get a reference to a *Queue* object. This object expose most the basic comands commands you'll need.
+To start sending message we need to get a reference to a *Queue* object. This object exposes most the basic comands commands you'll need.
 
 Here's how to send a message:
 
