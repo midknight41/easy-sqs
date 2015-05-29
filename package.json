@@ -1,6 +1,6 @@
 {
   "name": "easy-sqs",
-  "description": "Wrapper for SQS",
+  "description": "Simplified Libary for using AWS Simple Queuing Service (SQS)",
   "version": "0.3.3",
   "author": "Chad Macey <chad_macey@hotmail.com>",
   "homepage": "",
@@ -28,22 +28,23 @@
   "bugs": {
     "url": "http://github.com/midknight41/easy-sqs/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/midknight41/easy-sqs/LICENSE.txt"
-    }
-  ],
+  "license":  "MIT",
   "keywords": [
     "amazon",
     "aws",
-    "sqs"
+    "sqs",
+    "simple",
+    "queue",
+    "queueing",
+    "service"
   ],
   "scripts": {
     "test": "nodeunit lib/Tests",
     "cover": "istanbul cover ./node_modules/nodeunit/bin/nodeunit lib/Tests",
-    "coveralls": "istanbul cover ./node_modules/nodeunit/bin/nodeunit lib/Tests && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage" 
-       
-  },
-  "license": "MIT"
+    "coveralls": "istanbul cover ./node_modules/nodeunit/bin/nodeunit lib/Tests && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "ci": "add-commit-push",
+    "major": "npm version major -m \"published to npm as v%s\" && git push && npm publish",
+    "minor": "npm version minor -m \"published to npm as v%s\" && git push && npm publish",
+    "patch": "npm version patch -m \"published to npm as v%s\" && git push && npm publish"
+  }
 }

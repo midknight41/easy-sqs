@@ -65,9 +65,10 @@ _ReSharper*/
 #NuGet
 packages/
 
-#nodeModules
+#node stuff
 node_modules
 lib/node_modules
+npm-debug.log
 
 #ncrunch
 *ncrunch*

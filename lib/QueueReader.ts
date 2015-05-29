@@ -63,6 +63,7 @@ export class QueueReader extends events.EventEmitter implements interfaces.IQueu
     me.listening = true;
 
     process.nextTick(function () {
+      me.emit("started");
       me.internalMonitorQueue(me.deleter);
     });
   }
