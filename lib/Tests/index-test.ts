@@ -288,4 +288,4 @@ var testGroup = {
 
 };
 
-exports.indexTests = testGroup; 
+exports.indexTests = testGroup;

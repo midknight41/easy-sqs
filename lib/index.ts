@@ -3,26 +3,14 @@ import easySqs = require("./EasySqs");
 import errors = require("./CustomErrors");
 import interfaces = require("./Interfaces");
 
-export function createClient(awsConfig?: any) {
-
-  validateConfig(awsConfig);
+export function createClient(sqsConfig?: any, awsConfig?: any) {
 
   if (awsConfig != null) {
     AWS.config.update(awsConfig);
   }
-
-  return new SqsClient(new AWS.SQS());
+  return new SqsClient(new AWS.SQS(sqsConfig));
 }
 
-function validateConfig(awsConfig: any) {
-
-  if (awsConfig && awsConfig.accessKeyId && awsConfig.secretAccessKey && awsConfig.region) return;
-
-  if (!process.env.AWS_ACCESS_KEY_ID) throw new errors.InvalidArgumentError("accessKeyId not found in config or process.env.AWS_ACCESS_KEY_ID");
-  if (!process.env.AWS_SECRET_ACCESS_KEY) throw new errors.InvalidArgumentError("secretAccessKey not found in config or process.env.AWS_SECRET_ACCESS_KEY");
-  if (!process.env.AWS_REGION) throw new errors.InvalidArgumentError("region not found in config or process.env.AWS_REGION");
-
-}
 
 //deprecated
 export function CreateClient(accessKey: string, secretKey: string, region: string): ISqsClient {
