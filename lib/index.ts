@@ -3,7 +3,7 @@ import easySqs = require("./EasySqs");
 import errors = require("./CustomErrors");
 import interfaces = require("./Interfaces");
 
-export function createClient(sqsConfig?: any, awsConfig?: any) {
+export function createClient(awsConfig?: any, sqsConfig?: any) {
 
   if (awsConfig != null) {
     AWS.config.update(awsConfig);
