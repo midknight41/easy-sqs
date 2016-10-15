@@ -9,7 +9,7 @@
   ],
   "devDependencies": {
     "coveralls": "^2.11.2",
-    "gently": "0.10.0",
+    "gently": "^0.10.0",
     "istanbul": "^0.4.5",
     "jscoverage": "^0.6.0",
     "nodeunit": "^0.10.2"
