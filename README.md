@@ -1,6 +1,8 @@
 
 # easy-sqs
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/midknight41/easy-sqs.svg)](https://greenkeeper.io/)
+
 **easy-sqs** is a simple library for using AWS SQS service which provides most of the basic SQS functionality as well as providing an event emitting QueueReader with batch deletion capabilities.
 
 [![npm version](https://badge.fury.io/js/easy-sqs.svg)](http://badge.fury.io/js/easy-sqs)
