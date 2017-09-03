@@ -1,7 +1,7 @@
 {
   "name": "easy-sqs",
   "description": "Simplified Library for using AWS Simple Queuing Service (SQS)",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "author": "Chad Macey <chad_macey@hotmail.com>",
   "homepage": "",
   "contributors": [
