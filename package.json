@@ -8,7 +8,7 @@
     "Chad Macey <chad_macey@hotmail.com>"
   ],
   "devDependencies": {
-    "coveralls": "^2.13.3",
+    "coveralls": "^3.0.3",
     "gently": "^0.10.0",
     "istanbul": "^0.4.5",
     "jscoverage": "^0.6.0",
