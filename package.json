@@ -15,7 +15,7 @@
     "nodeunit": "^0.11.0"
   },
   "dependencies": {
-    "aws-sdk": "^2.437.0"
+    "aws-sdk": "^2.661.0"
   },
   "main": "lib/index.js",
   "engines": {
